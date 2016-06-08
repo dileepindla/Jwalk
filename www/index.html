@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>JWalk</title>
+    <link rel="stylesheet" href="css/f.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/material-red.min.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/material.js"></script>
+
+
+</head>
+
+<body>
+
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header">
+
+            <div class="mdl-layout__header-row">
+                <!-- Title -->
+
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer">
+
+                    <div class="title2">
+                        <h1><i class="fa fa-graduation-cap"></i> JWalk</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="mdl-layout__content">
+            <div class="page-content" 0>
+                <!-- Your content goes here -->
+
+                <div class="load">
+                    <br/>
+                    <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                </div>
+
+
+                <ul class="list">
+            
+
+                </ul>
+                
+                <br/>
+                <div id="nodata"></div>
+                
+                <br/>
+                <div class="btn">
+                     <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent" onClick="more()">
+                View More 
+            </button>
+                </div>
+                <br/>
+                <input type="hidden" name="lim" value="3" id="limit"/>
+
+            </div>
+        </main>
+    </div>
+
+
+    <script>
+        $(document).ready(function () {
+                $(".btn").hide();
+            $.ajax({
+                url: "http://dileepindla.16mb.com/server/posts.php",
+                type: "post",
+                success: function (msg) {
+                    $(".list").append(msg);
+                    $(".load").hide();
+                    $(".btn").show();
+                }
+
+            });
+
+        });
+        
+        function more(){
+            $(".load").show();
+            var num=$("#limit").val();
+            $.ajax({
+                url: "http://dileepindla.16mb.com/server/more.php",
+                data:"limit="+num,
+                type: "post",
+                success: function (data) {
+                    
+                    $(".list").append(data);
+                    $(".load").hide();
+                    var add=Number(num)+1;
+                    $("#limit").val(add);
+                    if(data==""){
+                        $("#nodata").html("<strong>No More Results</strong>")
+                    }
+
+                }
+
+            });
+        }
+        
+    </script>
+
+
+</body>
+
+</html>
